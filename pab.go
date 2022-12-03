@@ -29,7 +29,11 @@ func Bytes2File(data []byte, filename string) error {
 	return nil
 }
 
-func CopyFileWithDefault() error {
+func Bytes2FileWithApp(data []byte) error {
+	return Bytes2File(data, "app.properties")
+}
+
+func CopyFileWithServer() error {
 	if strings.EqualFold(runtime.GOOS, "linux") {
 		u, err := user.Current()
 		if err != nil {
