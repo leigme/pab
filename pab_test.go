@@ -62,18 +62,18 @@ func TestCopyFile(t *testing.T) {
 	}
 }
 
-func TestCopyFileWithDefault(t *testing.T) {
+func TestCopyFileWithServer(t *testing.T) {
 	tests := []struct {
 		name    string
 		wantErr bool
 	}{
 		{
-			name: "test_copyFileWithDefault_1",
+			name: "test_copyFileWithServer_1",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := CopyFileWithDefault(); (err != nil) != tt.wantErr {
+			if err := CopyFileWithServer(); (err != nil) != tt.wantErr {
 				t.Errorf("CopyFileWithServerProperties() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
@@ -106,6 +106,29 @@ func TestCreateDateDir(t *testing.T) {
 			}
 			if got != tt.want {
 				t.Errorf("CreateDateDir() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestBytes2FileWithApp(t *testing.T) {
+	type args struct {
+		data []byte
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "test_bytes2FileWithApp_1",
+			args: args{data: testData},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := Bytes2FileWithApp(tt.args.data); (err != nil) != tt.wantErr {
+				t.Errorf("Bytes2FileWithApp() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
