@@ -39,7 +39,7 @@ func CopyFileWithServer() error {
 		if err != nil {
 			return err
 		}
-		spp := filepath.Join(u.HomeDir, ".setting", "server.properties")
+		spp := filepath.Join(u.HomeDir, ".settings", "server.properties")
 		return CopyFile("/etc/server.properties", spp)
 	}
 	return nil
