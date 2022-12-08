@@ -39,7 +39,7 @@ type Config struct {
 	LogStdout         bool   `json:"log_stdout"`
 }
 
-func InitLoggerWithDefault(filename string) {
+func InitLoggerWithLogFile(filename string) {
 	conf := Config{
 		LogLevel:          defaultLevel,
 		LogFormat:         "",
@@ -79,7 +79,7 @@ func getCatEncoder(logFmt string) zapcore.Encoder {
 		encoder.AppendString(fmt.Sprintf("[%s]", level.CapitalString()))
 	}
 	encoderConfig.EncodeCaller = func(caller zapcore.EntryCaller, encoder zapcore.PrimitiveArrayEncoder) {
-		encoder.AppendString(fmt.Sprintf("[%s] -- ", caller))
+		encoder.AppendString(fmt.Sprintf("[%s] [_ti=%d] --", caller, util.GetThreadID()))
 	}
 	if strings.EqualFold(logFmt, logJsonFmt) {
 		return zapcore.NewJSONEncoder(encoderConfig)
@@ -118,49 +118,61 @@ func getLogWriter(conf Config) zapcore.WriteSyncer {
 }
 
 func Debug(args ...interface{}) {
+	defer sugaredLogger.Sync()
 	sugaredLogger.Debug(args...)
 }
 
 func Debugf(template string, args ...interface{}) {
+	defer sugaredLogger.Sync()
 	sugaredLogger.Debugf(template, args...)
 }
 
 func Info(args ...interface{}) {
+	defer sugaredLogger.Sync()
 	sugaredLogger.Info(args...)
 }
 
 func Infof(template string, args ...interface{}) {
+	defer sugaredLogger.Sync()
 	sugaredLogger.Infof(template, args...)
 }
 
 func Warn(args ...interface{}) {
+	defer sugaredLogger.Sync()
 	sugaredLogger.Warn(args...)
 }
 
 func Warnf(template string, args ...interface{}) {
+	defer sugaredLogger.Sync()
 	sugaredLogger.Warnf(template, args...)
 }
 
 func Error(args ...interface{}) {
+	defer sugaredLogger.Sync()
 	sugaredLogger.Error(args...)
 }
 
 func Errorf(template string, args ...interface{}) {
+	defer sugaredLogger.Sync()
 	sugaredLogger.Errorf(template, args...)
 }
 
 func DPanic(args ...interface{}) {
+	defer sugaredLogger.Sync()
 	sugaredLogger.DPanic(args)
 }
 
 func DPanicf(template string, args ...interface{}) {
+	defer sugaredLogger.Sync()
 	sugaredLogger.DPanicf(template, args...)
 }
 
 func Fatal(args ...interface{}) {
+	defer sugaredLogger.Sync()
 	sugaredLogger.Fatal(args...)
 }
 
 func Fatalf(template string, args ...interface{}) {
+	defer sugaredLogger.Sync()
 	sugaredLogger.Fatalf(template, args...)
 }
