@@ -2,11 +2,11 @@ package pab
 
 import (
 	"bufio"
+	"github.com/leigme/pab/util"
 	"io"
 	"os"
 	"os/user"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"time"
 )
@@ -34,7 +34,7 @@ func Bytes2FileWithApp(data []byte) error {
 }
 
 func CopyFileWithServer() error {
-	if strings.EqualFold(runtime.GOOS, "linux") {
+	if strings.EqualFold(util.GetOS(), "linux") {
 		u, err := user.Current()
 		if err != nil {
 			return err

@@ -1,14 +1,14 @@
 package logger
 
 import (
-	"github.com/leigme/pab"
+	"go.uber.org/zap/zapcore"
 	"reflect"
 	"testing"
 )
 
 func TestMain(m *testing.M) {
-	NewLogger("test.log", "info")
-	m.Run()
+	InitLoggerWithDefault("demo.log")
+	Info("abcdefg")
 }
 
 func TestDPanic(t *testing.T) {
@@ -159,7 +159,10 @@ func TestInfo(t *testing.T) {
 		name string
 		args args
 	}{
-		// TODO: Add test cases.
+		{
+			name: "test_info_1",
+			args: args{args: []interface{}{"abcdefg"}},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -177,13 +180,7 @@ func TestInfof(t *testing.T) {
 		name string
 		args args
 	}{
-		{
-			name: "test_Infof_1",
-			args: struct {
-				template string
-				args     []interface{}
-			}{template: "test%s", args: nil},
-		},
+		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -192,29 +189,55 @@ func TestInfof(t *testing.T) {
 	}
 }
 
-func TestNewLogger(t *testing.T) {
+func TestInitLoggerWithConfig(t *testing.T) {
 	type args struct {
-		filename string
-		level    string
+		conf Config
 	}
 	tests := []struct {
 		name string
 		args args
-		want pab.Logger
 	}{
-		{
-			name: "test_newLogger_1",
-			args: args{
-				filename: "test.log",
-				level:    "info",
-			},
-		},
+		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewLogger(tt.args.filename, tt.args.level); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewLogger() = %v, want %v", got, tt.want)
-			}
+			InitLoggerWithConfig(tt.args.conf)
+		})
+	}
+}
+
+func TestInitLoggerWithCustom(t *testing.T) {
+	type args struct {
+		encoder zapcore.Encoder
+		writer  zapcore.WriteSyncer
+		level   zapcore.LevelEnabler
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			InitLoggerWithCustom(tt.args.encoder, tt.args.writer, tt.args.level)
+		})
+	}
+}
+
+func TestInitLoggerWithDefault(t *testing.T) {
+	type args struct {
+		filename string
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			InitLoggerWithDefault(tt.args.filename)
 		})
 	}
 }
@@ -250,6 +273,46 @@ func TestWarnf(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			Warnf(tt.args.template, tt.args.args...)
+		})
+	}
+}
+
+func Test_getCatEncoder(t *testing.T) {
+	type args struct {
+		logFmt string
+	}
+	tests := []struct {
+		name string
+		args args
+		want zapcore.Encoder
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := getCatEncoder(tt.args.logFmt); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("getCatEncoder() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_getLogWriter(t *testing.T) {
+	type args struct {
+		conf Config
+	}
+	tests := []struct {
+		name string
+		args args
+		want zapcore.WriteSyncer
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := getLogWriter(tt.args.conf); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("getLogWriter() = %v, want %v", got, tt.want)
+			}
 		})
 	}
 }
