@@ -4,7 +4,11 @@ import "github.com/leigme/pab"
 
 var log pab.Logger
 
-func NewLogger(filename, level string) pab.Logger {
+func NewLogger(filename string) pab.Logger {
+	return NewLoggerWithLevel(filename, "info")
+}
+
+func NewLoggerWithLevel(filename, level string) pab.Logger {
 	log = pab.NewLogger(filename, level)
 	return log
 }
