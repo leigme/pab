@@ -1,10 +1,15 @@
 package util
 
 import (
+	"bufio"
 	"bytes"
+	"errors"
+	"fmt"
+	"io"
 	"os"
 	"runtime"
 	"strconv"
+	"strings"
 )
 
 func GetOS() string {
@@ -23,4 +28,30 @@ func GetThreadID() uint64 {
 func IsExist(path string) bool {
 	_, err := os.Stat(path)
 	return err == nil || os.IsExist(err)
+}
+
+func ParseProperties(path string) (*map[string]string, error) {
+  f, err := os.Open(path)
+  if err != nil {
+    return nil, err
+  }
+  defer f.Close()
+  m := make(map[string]string, 0) 
+  rf := bufio.NewReader(f)
+  for {
+    b, _, err := rf.ReadLine()
+    if err != nil && err == io.EOF {
+      break
+    }
+    l := string(b)
+    if strings.HasPrefix(l, "#") {
+      continue
+    }
+    sl := strings.Split(l, "=")
+    if len(sl) > 1 {
+      m[sl[0]] = strings.Join(sl[1:], ",")
+    }
+    return &m, nil
+  }
+  return nil, errors.New(fmt.Sprintf("%s parse is fail", path))
 }
