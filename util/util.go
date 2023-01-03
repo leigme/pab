@@ -3,8 +3,6 @@ package util
 import (
 	"bufio"
 	"bytes"
-	"errors"
-	"fmt"
 	"io"
 	"os"
 	"runtime"
