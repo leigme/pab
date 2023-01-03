@@ -51,7 +51,6 @@ func Properties2Map(path string) (map[string]string, error) {
     if len(sl) > 1 {
       m[sl[0]] = strings.Join(sl[1:], ",")
     }
-    return m, nil
   }
-  return nil, errors.New(fmt.Sprintf("%s parse is fail", path))
+  return m, nil
 }
